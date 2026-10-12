@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit member' if member else 'Add member' }}{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <h2>{{ 'Edit member' if member else 'Add a member' }}</h2>
+  <p class="muted">We'll email you a reminder on their birthday.</p>
+  <form method="post" class="form">
+    <label>Full name
+      <input type="text" name="name" required value="{{ member.name if member else request.form.get('name', '') }}">
+    </label>
+    <label>Birthday
+      <input type="date" name="birthday" required value="{{ member.birthday if member else request.form.get('birthday', '') }}">
+    </label>
+    <label>Email (optional)
+      <input type="email" name="email" value="{{ member.email if member else request.form.get('email', '') }}">
+    </label>
+    <label>Relationship (optional)
+      <input type="text" name="relationship" placeholder="Friend, Sister, Colleague..." value="{{ member.relationship if member else request.form.get('relationship', '') }}">
+    </label>
+    <button type="submit" class="btn btn-primary btn-block">{{ 'Save changes' if member else 'Add member' }}</button>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline btn-block">Cancel</a>
+  </form>
+</div>
+{% endblock %}

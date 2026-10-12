@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Notifications{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>🔔 Notification history</h2>
+    <p class="muted">Every email reminder we've sent you.</p>
+  </div>
+</div>
+
+{% if notifications %}
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Person</th><th>Birthday</th><th>Sent to</th><th>Status</th><th>When</th></tr></thead>
+    <tbody>
+      {% for n in notifications %}
+      <tr>
+        <td>{{ n.person_name }}</td>
+        <td>{{ n.birthday }}</td>
+        <td>{{ n.sent_to }}</td>
+        <td><span class="badge {{ 'badge-live' if n.status == 'sent' else 'badge-danger' }}">{{ n.status }}</span></td>
+        <td>{{ n.sent_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty"><p>No notifications yet. They'll appear here once a birthday arrives.</p></div>
+{% endif %}
+{% endblock %}

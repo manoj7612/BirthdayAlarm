@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Birthday Alarm - Never forget a birthday{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <span class="pill">🎉 Smart Birthday Reminders</span>
+    <h1>Never forget a<br><span>birthday</span> again.</h1>
+    <p>Sign up, add your birthday and your loved ones, and we'll email you a friendly reminder right on the day.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('signup') }}" class="btn btn-primary">Create free account</a>
+      <a href="{{ url_for('login') }}" class="btn btn-outline">Sign in</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="mini-card">
+      <div class="mini-emoji">🎂</div>
+      <div><strong>Maya's Birthday</strong><span>Today &middot; turning 24</span></div>
+      <span class="badge">Now</span>
+    </div>
+    <div class="mini-card">
+      <div class="mini-emoji">🎈</div>
+      <div><strong>Alex's Birthday</strong><span>In 3 days &middot; turning 31</span></div>
+      <span class="badge badge-muted">Soon</span>
+    </div>
+    <div class="mini-card">
+      <div class="mini-emoji">🎁</div>
+      <div><strong>Your Birthday</strong><span>In 120 days</span></div>
+      <span class="badge badge-muted">Set</span>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature">
+    <h3>🔔 Automatic alarms</h3>
+    <p>Your birthday alarm is set the moment you sign up. No manual steps needed.</p>
+  </div>
+  <div class="feature">
+    <h3>📧 Email notifications</h3>
+    <p>Get a beautiful reminder delivered to your inbox on every birthday you track.</p>
+  </div>
+  <div class="feature">
+    <h3>👨‍👩‍👧‍👦 Track family &amp; friends</h3>
+    <p>Add unlimited members and never miss wishing the people you care about.</p>
+  </div>
+</section>
+{% endblock %}

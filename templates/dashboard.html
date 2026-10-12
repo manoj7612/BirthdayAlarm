@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h2>Welcome, {{ user.name }} 👋</h2>
+    <p class="muted">Here are the birthdays you're tracking.</p>
+  </div>
+  <a href="{{ url_for('add_member') }}" class="btn btn-primary">+ Add member</a>
+</div>
+
+<div class="stat-grid">
+  <div class="stat">
+    <span class="stat-label">Your birthday</span>
+    <span class="stat-value">{{ user_info.next_date }}</span>
+    {% if user_info.is_today %}
+      <span class="badge badge-live">Today! 🎂</span>
+    {% else %}
+      <span class="stat-sub">In {{ user_info.days_until }} day{{ 's' if user_info.days_until != 1 }}</span>
+    {% endif %}
+  </div>
+  <div class="stat">
+    <span class="stat-label">Members tracked</span>
+    <span class="stat-value">{{ members|length }}</span>
+    <span class="stat-sub">family &amp; friends</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Upcoming this week</span>
+    <span class="stat-value">{{ upcoming_count }}</span>
+    <span class="stat-sub">within 7 days</span>
+  </div>
+</div>
+
+<h3 class="section-title">🎂 Your members</h3>
+{% if members %}
+<div class="member-grid">
+  {% for m in members %}
+  <div class="member-card">
+    <div class="avatar">{{ m.name[0]|upper }}</div>
+    <div class="member-info">
+      <strong>{{ m.name }}</strong>
+      <span class="muted">{{ m.birthday }} · {{ m.relationship or 'No relation set' }}</span>
+      {% if m.info.is_today %}
+        <span class="badge badge-live">Today! 🎉</span>
+      {% else %}
+        <span class="muted">In {{ m.info.days_until }} days · turning {{ m.info.age_turning }}</span>
+      {% endif %}
+    </div>
+    <div class="member-actions">
+      <a href="{{ url_for('edit_member', member_id=m.id) }}" class="btn btn-outline btn-sm">Edit</a>
+      <form method="post" action="{{ url_for('delete_member', member_id=m.id) }}" onsubmit="return confirm('Remove {{ m.name }}?');">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty">
+  <p>No members yet. Add your family and friends to get birthday reminders.</p>
+  <a href="{{ url_for('add_member') }}" class="btn btn-primary">+ Add your first member</a>
+</div>
+{% endif %}
+
+<h3 class="section-title">🔔 Recent notifications</h3>
+{% if notifications %}
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Person</th><th>Birthday</th><th>Sent to</th><th>Status</th><th>When</th></tr></thead>
+    <tbody>
+      {% for n in notifications %}
+      <tr>
+        <td>{{ n.person_name }}</td>
+        <td>{{ n.birthday }}</td>
+        <td>{{ n.sent_to }}</td>
+        <td><span class="badge {{ 'badge-live' if n.status == 'sent' else 'badge-danger' }}">{{ n.status }}</span></td>
+        <td>{{ n.sent_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="muted">No notifications have been sent yet.</p>
+{% endif %}
+{% endblock %}
